@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: t3demo
+spec:
+  containers:
+  - name: t3demo
+    image: gcr.io/k8-3s-388721/t3demo:v1.0.0
+    ports:
+    - containerPort: 8080
+    resources:
+      requests:
+        cpu: 2
+        memory: 2Gi
+      limits:
+        cpu: 3
+        memory: 4Gi
