@@ -28,16 +28,3 @@ spec:
       - name: db-data
         persistentVolumeClaim:
           claimName: db-data-pvc
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: lamp-stack
-spec:
-  selector:
-    app: lamp-stack
-  ports:
-  - protocol: TCP
-    port: 443
-    targetPort: 443
-  type: LoadBalancer
