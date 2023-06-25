@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lamp-stack
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lamp-stack
+  template:
+    metadata:
+      labels:
+        app: lamp-stack
+    spec:
+      containers:
+      - name: lamp-stack
+        image: lamp-stack:latest
+        ports:
+        - containerPort: 443
+        - containerPort: 80
+        env:
+        - name: PHP_VERSION
+          value: "8.0"
+        volumeMounts:
+        - name: db-data
+          mountPath: /app/data/db
+      volumes:
+      - name: db-data
+        persistentVolumeClaim:
+          claimName: db-data-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lamp-stack
+spec:
+  selector:
+    app: lamp-stack
+  ports:
+  - protocol: TCP
+    port: 443
+    targetPort: 443
+  type: LoadBalancer
