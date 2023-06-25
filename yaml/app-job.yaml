@@ -1,0 +1,20 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hourly-backup
+spec:
+  template:
+    spec:
+      containers:
+        - name: backup
+          image: nfs-client
+          volumeMounts:
+            - name: appdata
+              mountPath: /app/data
+      volumes:
+        - name: appdata
+          nfs:
+            server: mybackup.io
+            path: /appdata-backup
+      restartPolicy: OnFailure
+  schedule: "0 * * * *"
